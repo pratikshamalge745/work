@@ -1,0 +1,32 @@
+#include <iostream>
+#include <stack>
+#include <string>
+
+bool isBalanced(const std::string& expression) {
+    std::stack<char> s;
+    for (char ch : expression) {
+        if (ch == '(' || ch == '{' || ch == '[') {
+            s.push(ch);
+        } else if (ch == ')' || ch == '}' || ch == ']') {
+            if (s.empty()) {
+                return false;
+            }
+            char openBracket = s.top();
+            s.pop();
+            if ((ch == ')' && openBracket != '(') ||
+                (ch == '}' && openBracket != '{') ||
+                (ch == ']' && openBracket != '[')) {
+                return false;
+            }
+        }
+    }
+    return s.empty();
+}
+
+int main() {
+    std::string expr1 = "{[()]}";
+    std::string expr2 = "}{[()]";
+    std::cout << expr1 << " is balanced: " << (isBalanced(expr1) ? "True" : "False") << std::endl;
+    std::cout << expr2 << " is balanced: " << (isBalanced(expr2) ? "True" : "False") << std::endl;
+    return 0;
+}
